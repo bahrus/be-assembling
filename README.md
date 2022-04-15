@@ -41,89 +41,89 @@ Consider this example of markup, that takes a JSON array, and slices the columns
 The markup for this web component could start out looking something like the following:
 
 ```html
-    <form be-reformable='{
-        "autoSubmit": true,
-        "debug": true
-    }'
-        action="test.json"
-        target="[-value]"
-    ></form>
-    <obj-ml -value></obj-ml>
-    <pass-down on="value-changed" vft="value.results.0.members" to="xtal-slice[-list]" m='1'></pass-down>
-    <label>
-        <input type="search" name="search" placeholder="Search" size="100" />
-        <pass-down on="change" vft from="label" to="[-new-slice-path]"></pass-down>
-    </label>
-    <xtal-slice -list -new-slice-path split-name-by='_'></xtal-slice>
-    <pass-down on='tree-view-changed' vft='treeView' to=[-nodes]></pass-down>
-    <pass-down on="slice-changed" vft="slice.list" to=.slice-view[-list]></pass-down>
-    <xtal-tree -nodes></xtal-tree>
+<form be-reformable='{
+    "autoSubmit": true,
+    "debug": true
+}'
+    action="test.json"
+    target="[-value]"
+></form>
+<obj-ml -value></obj-ml>
+<pass-down on="value-changed" vft="value.results.0.members" to="xtal-slice[-list]" m='1'></pass-down>
+<label>
+    <input type="search" name="search" placeholder="Search" size="100" />
+    <pass-down on="change" vft from="label" to="[-new-slice-path]"></pass-down>
+</label>
+<xtal-slice -list -new-slice-path split-name-by='_'></xtal-slice>
+<pass-down on='tree-view-changed' vft='treeView' to=[-nodes]></pass-down>
+<pass-down on="slice-changed" vft="slice.list" to=.slice-view[-list]></pass-down>
+<xtal-tree -nodes></xtal-tree>
 
-    <xtal-vlist style="height:600px;width:100%;" page-size="10" id="vlist" be-observant='{
-        "list": {"observe": "xtal-tree", "vft": "viewableNodes"}
-    }' row-transform='{
-        "div": [{}, {}, {"data-path": "path", "style": "marginStyle"}],
-        "label": "name",
-        "expanderParts": [true, {"if": "open"}, ["-"], ["+"]],
-        "button": [{}, {}, {"data-children": "hasChildren"}]
-    }'
-        be-channeling='[
-            {
-                "eventFilter": "click",
-                "toNearestUpMatch": "xtal-tree",
-                "prop": "toggledNodePath",
-                "vfe": "path.0.parentElement.dataset.path",
-                "composedPathMatch": "button"
-            },
-            {
-                "eventFilter": "click",
-                "toNearestUpMatch": "xtal-slice",
-                "prop": "newSlicePath",
-                "vfe": "path.0.parentElement.dataset.path",
-                "composedPathMatch": "label"
+<xtal-vlist style="height:600px;width:100%;" page-size="10" id="vlist" be-observant='{
+    "list": {"observe": "xtal-tree", "vft": "viewableNodes"}
+}' row-transform='{
+    "div": [{}, {}, {"data-path": "path", "style": "marginStyle"}],
+    "label": "name",
+    "expanderParts": [true, {"if": "open"}, ["-"], ["+"]],
+    "button": [{}, {}, {"data-children": "hasChildren"}]
+}'
+    be-channeling='[
+        {
+            "eventFilter": "click",
+            "toNearestUpMatch": "xtal-tree",
+            "prop": "toggledNodePath",
+            "vfe": "path.0.parentElement.dataset.path",
+            "composedPathMatch": "button"
+        },
+        {
+            "eventFilter": "click",
+            "toNearestUpMatch": "xtal-slice",
+            "prop": "newSlicePath",
+            "vfe": "path.0.parentElement.dataset.path",
+            "composedPathMatch": "label"
+        }
+    ]'
+>>
+    <div class=node slot=row itemscope >
+        <button class="expander" part=expander>.</button>
+        <label></label>
+    </div>
+    <template slot="style">
+        <style>
+            button.expander{
+                display:none;
             }
-        ]'
-    >>
-        <div class=node slot=row itemscope >
-            <button class="expander" part=expander>.</button>
-            <label></label>
-        </div>
-        <template slot="style">
-            <style>
-                button.expander{
-                    display:none;
-                }
-                button[data-children].expander{
-                    display:inline;
-                }
-            </style>
-        </template>
-    </xtal-vlist>
-    <header>
-        <span>First Name</span><span>Last Name</span>
-    </header>
-    <xtal-vlist style="height:600px;width:100%;" class='slice-view' -list row-transform='{
-        ".first_name": "first_name",
-        ".last_name": "last_name"
-    }'>
-        <template slot='style'>
-            <style>
+            button[data-children].expander{
+                display:inline;
+            }
+        </style>
+    </template>
+</xtal-vlist>
+<header>
+    <span>First Name</span><span>Last Name</span>
+</header>
+<xtal-vlist style="height:600px;width:100%;" class='slice-view' -list row-transform='{
+    ".first_name": "first_name",
+    ".last_name": "last_name"
+}'>
+    <template slot='style'>
+        <style>
 
-                span{
-                    color:green;
-                }
-                div[slot="row"]{
-                    display:flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                }
-            </style>
-        </template>
+            span{
+                color:green;
+            }
+            div[slot="row"]{
+                display:flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        </style>
+    </template>
 
-        <div slot='row'>
-            <span class='first_name'></span><span class='last_name'></span>
-        </div>
-    </xtal-vlist>
+    <div slot='row'>
+        <span class='first_name'></span><span class='last_name'></span>
+    </div>
+</xtal-vlist>
 ```
 
 But now the consumer of the web component may want to add some fields to the form, allowing for filtering / searching of the url to retrieve the JSON data.
@@ -146,7 +146,7 @@ Make the markup look as follows:
     ></form>
 </slot>
 
-<slot name=search be-transplanted>
+<slot name=search-ui be-transplanted>
     <template>
         <label>
             <input type="search" name="search" placeholder="Search" size="100" />
@@ -253,5 +253,24 @@ Make the markup look as follows:
 </slot>
 
 <template be-assembling>
+    <form></form>
+    <obj-ml -value></obj-ml>
+    <pass-down on="value-changed" vft="value.results.0.members" to="xtal-slice[-list]" m='1'></pass-down>
+    <search-ui></search-ui>
+
+    <xtal-slice -list -new-slice-path split-name-by='_'></xtal-slice>
+    <pass-down on='tree-view-changed' vft='treeView' to=[-nodes]></pass-down>
+    <pass-down on="slice-changed" vft="slice.list" to=.slice-view[-list]></pass-down>
+    <xtal-tree -nodes></xtal-tree>
+
+    <sliced-vlist>
+        <sliced-vlist-row-template></sliced-vlist-row-template>
+        <sliced-vlist-style></sliced-vlist-style>
+    </sliced-vlist>
+    <main-grid-header></main-grid-header>
+    <main-grid-vlist>
+        <main-grid-vlist-row-template></main-grid-vlist-row-template>
+        <main-grid-vlist-style></main-grid-vlist-style>
+    </main-grid-vlist>
 </template>
 ```
