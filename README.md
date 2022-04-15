@@ -83,7 +83,7 @@ The markup for this web component could start out looking something like the fol
             "composedPathMatch": "label"
         }
     ]'
->>
+>
     <div class=node slot=row itemscope >
         <button class="expander" part=expander>.</button>
         <label></label>
@@ -160,12 +160,6 @@ Make the markup look as follows:
             be-observant='{
                 "list": {"observe": "xtal-tree", "vft": "viewableNodes"}
             }' 
-            row-transform='{
-                "div": [{}, {}, {"data-path": "path", "style": "marginStyle"}],
-                "label": "name",
-                "expanderParts": [true, {"if": "open"}, ["-"], ["+"]],
-                "button": [{}, {}, {"data-children": "hasChildren"}]
-            }'
             be-channeling='[
                 {
                     "eventFilter": "click",
@@ -186,6 +180,19 @@ Make the markup look as follows:
             <slot></slot>
         </xtal-vlist>
     </template>
+</slot>
+
+<slot name=sliced-vlist-hydrate be-transplanted>
+    <script type=json be-hydrated>
+        {
+            "rowTransform": {
+                "div": [{}, {}, {"data-path": "path", "style": "marginStyle"}],
+                "label": "name",
+                "expanderParts": [true, {"if": "open"}, ["-"], ["+"]],
+                "button": [{}, {}, {"data-children": "hasChildren"}]
+            }
+        }
+    </script>
 </slot>
 
 <slot name=sliced-vlist-row-template  be-transplanted>
@@ -264,6 +271,7 @@ Make the markup look as follows:
     <xtal-tree -nodes></xtal-tree>
 
     <sliced-vlist>
+        <sliced-vlist-hydrate></sliced-vlist-hydrate>
         <sliced-vlist-row-template></sliced-vlist-row-template>
         <sliced-vlist-style></sliced-vlist-style>
     </sliced-vlist>
