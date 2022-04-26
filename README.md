@@ -32,11 +32,11 @@ Define a flat list of all the templates containing html snippets that is essenti
 
 Using templates via slots, allow consumers of the web component to override the default templates provided above.
 
-Now given this flat list of templates (some default, some user overrides), use this component to weave the templates together in order to achieve the true markup.
+Now given this flat list of templates (some default, some user overrides), use this the be-assembling decorator to weave the templates together in order to achieve the true markup .
 
 ## Example
 
-Consider this example of markup, that takes a JSON array, and slices the columns into a tree like structure, which then links in with a flat grid display.
+Consider this example of markup, that takes a JSON array, and slices the columns into a tree like structure, which then links in with a flat grid display (think windows explorer for a nice analogy of the UI).
 
 The markup for this web component could start out looking something like the following:
 
@@ -135,8 +135,8 @@ Defining a hierarchical structure of the light children is one approach. But thi
 Make the markup look as follows:
 
 ```html
-<slot name=form be-transplanted>
-    <template>
+<slot name=form >
+    <template be-born=asIs slot=form>
         <form be-reformable='{
         "autoSubmit": true,
         "debug": true
@@ -146,16 +146,16 @@ Make the markup look as follows:
     ></form>
 </slot>
 
-<slot name=search-ui be-transplanted>
-    <template>
+<slot name=search-ui >
+    <template be-born=asIs slot=search-ui>
         <label>
             <input type="search" name="search" placeholder="Search" size="100" />
         </label>
     </template>
 </slot>
 
-<slot name=sliced-vlist be-transplanted>
-    <template>
+<slot name=sliced-vlist >
+    <template be-born=asIs slot=slicked-vlist>
         <xtal-vlist style="height:600px;width:100%;" page-size="10" id="vlist" 
             be-observant='{
                 "list": {"observe": "xtal-tree", "vft": "viewableNodes"}
@@ -182,8 +182,9 @@ Make the markup look as follows:
     </template>
 </slot>
 
+<!-- TODO:  -->
 <slot name=sliced-vlist-hydrate be-transplanted>
-    <script type=json be-hydrated>
+    <script type=json be-hydrated slot=slicked-vlist-hydrate>
         {
             "rowTransform": {
                 "div": [{}, {}, {"data-path": "path", "style": "marginStyle"}],
@@ -195,8 +196,8 @@ Make the markup look as follows:
     </script>
 </slot>
 
-<slot name=sliced-vlist-row-template  be-transplanted>
-    <template>
+<slot name=sliced-vlist-row-template>
+    <template be-born=asIs slot=sliced-vlist-row-template>
         <div class=node slot=row itemscope >
             <button class="expander" part=expander>.</button>
             <label></label>
@@ -204,8 +205,8 @@ Make the markup look as follows:
     </template>
 </slot>
 
-<slot name=sliced-vlist-style  be-transplanted>
-    <template>
+<slot name=sliced-vlist-style>
+    <template be-born=asIs slot=sliced-vlist-style>
         <style>
             button.expander{
                 display:none;
@@ -217,16 +218,16 @@ Make the markup look as follows:
     </template>
 </slot>
 
-<slot name=main-grid-header be-transplanted>
-    <template>
+<slot name=main-grid-header>
+    <template be-born=asIs slot=main-grid-header>
         <header>
             <span>First Name</span><span>Last Name</span>
         </header>
     </template>
 </slot>
 
-<slot name=main-grid-vlist be-transplanted>
-    <template>
+<slot name=main-grid-vlist>
+    <template be-born=asIs slot=main-grid-vlist>
         <xtal-vlist style="height:600px;width:100%;" class='slice-view' -list row-transform='{
             ".first_name": "first_name",
             ".last_name": "last_name"
@@ -236,8 +237,8 @@ Make the markup look as follows:
     </template>
 </slot>
 
-<slot name=main-grid-vlist-style be-transplanted>
-    <template>
+<slot name=main-grid-vlist-style>
+    <template be-born=asIs slot=main-grid-vlist-style>
         <style>
             span{
                 color:green;
@@ -252,7 +253,7 @@ Make the markup look as follows:
 </slot>
 
 <slot name=main-grid-vlist-row-template>
-    <template>
+    <template be-born=asIs slot=main-grid-vlist-row-template>
         <div slot='row'>
             <span class='first_name'></span><span class='last_name'></span>
         </div>
@@ -282,3 +283,7 @@ Make the markup look as follows:
     </main-grid-vlist>
 </template>
 ```
+
+So the slots essentially become very short-lived virtual "custom element" that are replaced with the slotted content during the "assembling."
+
+Assembling doesn't start until every slot change has been triggered / and/or node assigned.
