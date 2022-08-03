@@ -24,7 +24,7 @@ Why?
 
 As one moves from the micro, "primitive" JS-centric web components to the macro, HTML dominated web components, we are faced with dilemmas as far as how to pass in dependencies that go in quite deep.
 
-Parts doesn't support nesting, and other configurations, like columns of a grid, are a pain to have to pass through the system.
+Parts doesn't support nesting [actually...](https://www.abeautifulsite.net/posts/css-parts-inspired-by-bem/#elements-%E2%86%92-subparts), and other configurations, like columns of a grid, are a pain to have to pass through the system.
 
 So one solution is to design these macro web components using ideas loosely modeled after dependency injection:
 
@@ -284,6 +284,6 @@ Make the markup look as follows:
 </template>
 ```
 
-So the slots essentially become very short-lived virtual "custom element" that are replaced with the slotted content during the "assembling."
+So the slots essentially become very short-lived virtual "custom elements" that are replaced with the slotted content during the "assembling."
 
 Assembling doesn't start until every slot change has been triggered / and/or node assigned.
