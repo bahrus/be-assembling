@@ -24,7 +24,7 @@ Why?
 
 As one moves from the micro, "primitive" JS-centric web components to the macro, HTML dominated web components, we are faced with dilemmas as far as how to pass in dependencies that go in quite deep.
 
-Parts don't support nesting [actually, maybe the do...](https://www.abeautifulsite.net/posts/css-parts-inspired-by-bem/#elements-%E2%86%92-subparts). A "web assembly" may contain a deeply nested structure.  For example, deeply buried in the markup, there might be a grid, but we want to expose ots configuration, like the columns to the end user.
+Parts don't support nesting [actually, maybe they do...](https://www.abeautifulsite.net/posts/css-parts-inspired-by-bem/#elements-%E2%86%92-subparts). A "web assembly" may contain a deeply nested structure.  For example, deeply buried in the markup, there might be a grid, but we want to expose ots configuration, like the columns to the end user.
 
 So one solution is to design these macro web components using ideas loosely modeled after dependency injection:
 
