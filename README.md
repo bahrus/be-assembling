@@ -24,7 +24,7 @@ Why?
 
 As one moves from the micro, "primitive" JS-centric web components to the macro, HTML dominated web components, we are faced with dilemmas as far as how to pass in dependencies that go in quite deep.
 
-Parts doesn't support nesting [actually...](https://www.abeautifulsite.net/posts/css-parts-inspired-by-bem/#elements-%E2%86%92-subparts), and other configurations, like columns of a grid, are a pain to have to pass through the system.
+Parts don't support nesting [actually, maybe the do...](https://www.abeautifulsite.net/posts/css-parts-inspired-by-bem/#elements-%E2%86%92-subparts). A "web assembly" may contain a deeply nested structure.  For example, deeply buried in the markup, there might be a grid, but we want to expose ots configuration, like the columns to the end user.
 
 So one solution is to design these macro web components using ideas loosely modeled after dependency injection:
 
@@ -32,7 +32,7 @@ Define a flat list of all the templates containing html snippets that is essenti
 
 Using templates via slots, allow consumers of the web component to override the default templates provided above.
 
-Now given this flat list of templates (some default, some user overrides), use this the be-assembling decorator to weave the templates together in order to achieve the true markup .
+Now given this flat list of templates (some default, some user overrides), the be-assembling decorator kicks into action and weaves the templates together in order to achieve the true markup .
 
 ## Example
 
@@ -130,7 +130,7 @@ But now the consumer of the web component may want to add some fields to the for
 
 The consumer might want to switch the order of the first_name and last_name columns, add additional columns, etc.
 
-Defining a hierarchical structure of the light children is one approach. But this component (together with be-transplanted) supports an alternative:
+Defining a hierarchical structure of the light children is one approach. But this component (together with be-born, be-transplanted) supports an alternative:
 
 Make the markup look as follows:
 
